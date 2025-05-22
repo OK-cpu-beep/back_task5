@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <link href="static/styles.css" rel="stylesheet" type="text/css" />
+    <title> Дом Баззиков </title>
+</head>
+
+<body>
+    <header>
+        <div class="title_block">
+            <a href="final.cgi">
+                <img class="img-header" src="static/hyperbuzz_pin.png" />
+            </a>
+            <h1> ДОМ БАЗЗИЛ </h1>
+        </div>
+        <nav>
+            <div class="a-3"><a href="final_log.cgi">Войти</a></div>
+        </nav>
+    </header>
+    <div class="main_block">
+        <form id="tablo" action="final_log.cgi" method="post">
+            <!-- 1 -->
+            {% if mess %}<label class="error-message"> {{mess}}</label><br>{% endif %}
+            <label>
+                Логин<br>
+                <input name="field-log" type="log" />
+            </label><br><br>
+            <!-- 2 -->
+            <label>
+                Пароль:<br />
+                {% if er_phone %}
+                <label class="error-message"> {{er_phone.value}} </label> <br>
+                {% endif %}
+                <input name="field-pass" type="pass" />
+            </label><br>
+            <input type="submit" value="Сохранить"><br><br>
+        </form>
+    </div>
+    <footer>
+        <p> Ковязин Кирилл (c)</p>
+    </footer>
+</body>

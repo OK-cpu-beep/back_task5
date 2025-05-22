@@ -1,0 +1,38 @@
+CREATE TABLE users1 (
+    users_id INT AUTO_INCREMENT PRIMARY KEY,
+    fio VARCHAR(150) NOT NULL,
+    phone VARCHAR(20) NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    birth_date DATE NOT NULL,
+    gender INT NOT NULL,
+    bio TEXT NOT NULL,
+    login VARCHAR(50) NOT NULL UNIQUE,
+    password_hash VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE languages1 (
+    languages_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(150) NOT NULL
+);
+
+CREATE TABLE users_languages1 (
+    user_id INT NOT NULL,
+    language_id INT NOT NULL,
+    PRIMARY KEY (user_id, language_id),
+    FOREIGN KEY (user_id) REFERENCES users1(users_id) ON DELETE CASCADE,
+    FOREIGN KEY (language_id) REFERENCES languages1(languages_id) ON DELETE CASCADE
+);
+
+INSERT INTO languages1(name) VALUES ('Pascal');
+INSERT INTO languages1(name) VALUES ('C');
+INSERT INTO languages1(name) VALUES ('C++');
+INSERT INTO languages1(name) VALUES ('JavaScript');
+INSERT INTO languages1(name) VALUES ('PHP');
+INSERT INTO languages1(name) VALUES ('Python');
+INSERT INTO languages1(name) VALUES ('Java');
+INSERT INTO languages1(name) VALUES ('Haskel');
+INSERT INTO languages1(name) VALUES ('Clojure');
+INSERT INTO languages1(name) VALUES ('Prolog');
+INSERT INTO languages1(name) VALUES ('Scala');
+INSERT INTO languages1(name) VALUES ('Go');
+
