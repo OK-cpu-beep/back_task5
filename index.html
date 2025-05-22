@@ -21,9 +21,9 @@
     <div class="main_block">
         <form id="tablo" action="final.cgi" method="post">
             <!-- 1 -->
-            <label>{% if mess %} {{mess}}<br> {% endif %} </label>
-            <label>{% if login %} {{login}}<br> {% endif %} </label>
-            <label>{% if password %} {{password}}<br> {% endif %} </label>
+            <label>{% if mess %} {{mess}} <br> {% endif %} </label>
+            <label>{% if login %}Логин: {{login}}<br> {% endif %} </label>
+            <label>{% if password %}Пароль: {{password}}<br> {% endif %} </label>
             <label>
                 ФИО:<br />
                 {% if er_fio %}

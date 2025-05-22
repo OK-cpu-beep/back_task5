@@ -27,10 +27,31 @@ def hash_password(password):
 def check_password(hashed_password, user_password):
     return hashed_password == sha256(user_password.encode('utf-8')).hexdigest()
 
+def ru_to_eng(name):
+    translit_dict = {
+    'а': 'a', 'б': 'b', 'в': 'v', 'г': 'g', 'д': 'd', 'е': 'e', 'ё': 'yo',
+    'ж': 'zh', 'з': 'z', 'и': 'i', 'й': 'y', 'к': 'k', 'л': 'l', 'м': 'm',
+    'н': 'n', 'о': 'o', 'п': 'p', 'р': 'r', 'с': 's', 'т': 't', 'у': 'u',
+    'ф': 'f', 'х': 'kh', 'ц': 'ts', 'ч': 'ch', 'ш': 'sh', 'щ': 'shch',
+    'ъ': '', 'ы': 'y', 'ь': '', 'э': 'e', 'ю': 'yu', 'я': 'ya',
+    'А': 'A', 'Б': 'B', 'В': 'V', 'Г': 'G', 'Д': 'D', 'Е': 'E', 'Ё': 'Yo',
+    'Ж': 'Zh', 'З': 'Z', 'И': 'I', 'Й': 'Y', 'К': 'K', 'Л': 'L', 'М': 'M',
+    'Н': 'N', 'О': 'O', 'П': 'P', 'Р': 'R', 'С': 'S', 'Т': 'T', 'У': 'U',
+    'Ф': 'F', 'Х': 'Kh', 'Ц': 'Ts', 'Ч': 'Ch', 'Ш': 'Sh', 'Щ': 'Shch',
+    'Ъ': '', 'Ы': 'Y', 'Ь': '', 'Э': 'E', 'Ю': 'Yu', 'Я': 'Ya'
+    }
+    itog = ""
+    for sym in name:
+        if sym in translit_dict:
+            itog+=translit_dict[sym]
+        else:
+            itog+="sym"
+    return itog
 # Функция для создания логина
 def create_login(name):
     ran_num = random.randint(1,100)
-    return f"{name.lower().replace(' ', '_')}_{ran_num}"
+    new_name = ru_to_eng(name)
+    return f"{new_name.lower().replace(' ', '_')}_{ran_num}"
 
 class SQL_con():
         config = {
@@ -104,6 +125,19 @@ class SQL_con():
                 data["gender"],data["bio"], id))
             conn.commit()
             conn.close()
+
+        @staticmethod
+        def get_names():
+            conn = sq_con.connect(**SQL_con.config)
+            curr = conn.cursor()
+            curr.execute(f'''
+                SELECT login FROM users1;
+                ''')
+            users = curr.fetchall()
+            conn.close()
+            return users
+
+        
 
 def main():
     if method=='GET':
@@ -270,7 +304,10 @@ def main():
                     "bio": bio,
                 }
             if not ("id" in cookie):
+                logins = [a[0] for a in SQL_con.get_names()]
                 login = create_login(fio.split()[0])
+                while login in logins:
+                    login+=str(random.randint(1,1000))
                 password = generate_password()
                 hashed_password = hash_password(password)
                 new_data["password_hash"] = hashed_password
