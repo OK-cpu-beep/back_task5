@@ -45,7 +45,7 @@ def ru_to_eng(name):
         if sym in translit_dict:
             itog+=translit_dict[sym]
         else:
-            itog+="sym"
+            itog+=sym
     return itog
 # Функция для создания логина
 def create_login(name):
@@ -155,13 +155,18 @@ def main():
         env = Environment(
             loader=FileSystemLoader('.'),  # Ищем шаблоны в текущей директории
         )
+        if "id" in cookie:
+            mess = "Добро пожаловать"
+        else:
+            mess = "Регистрация"
         template = env.get_template('index.html')
-        output = template.render(**cookie)
+        output = template.render(**cookie, mess = mess)
         #Выводим страницу
         print("Status: 200 OK")
         print("Content-Type: text/html; charset=utf-8")
         print()  # Пустая строка между заголовками и телом
         print(output)
+        
     elif method=="POST":
         content_length = int(os.environ.get('CONTENT_LENGTH', 0))
         post_data = sys.stdin.read(content_length)
