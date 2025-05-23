@@ -101,7 +101,8 @@ def main():
         password = new_data['field-pass'][0]
         needed_pass = SQL_con.get_pass_from_log(login)
         hashed_password = hash_password(password)
-        if(hashed_password == needed_pass):
+        token = os.environ.get('JWT_SECRET_KEY')
+        if(hashed_password == needed_pass and verify_jwt(token)):
             #(6, 'wqeqwsadasdasdas', '89797895673', 'mnfdffssd@gmail.com', datetime.date(2025, 5, 13), 1, 'zcxzxczxczczxcz ', 'wqeqwsadasdasdas_25',)
             d = SQL_con.get_FULL(login)
             prep_cook = {
